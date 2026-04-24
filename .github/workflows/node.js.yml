@@ -22,11 +22,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        # هذا السطر يخبر الأداة بمكان ملف الـ lock للـ cache
         cache-dependency-path: './OMSBackend/package-lock.json'
 
     - name: Install dependencies
-      # هذا السطر يخبر GitHub بالدخول للمجلد قبل تنفيذ الأمر
       run: npm ci
       working-directory: ./OMSBackend
 
