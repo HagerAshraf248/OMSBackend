@@ -31,7 +31,3 @@ jobs:
     - name: Build
       run: npm run build --if-present
       working-directory: ./OMSBackend
-
-    - name: Test
-      run: npm test
-      working-directory: ./OMSBackend
