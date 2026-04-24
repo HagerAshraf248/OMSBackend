@@ -1,4 +1,6 @@
 const cartService = require('../services/cartService');
+const Cart = require('../models/Cart');
+const CartItem = require('../models/CartItem');
 
 exports.getCartByUser = async (req, res) => {
     try {
@@ -24,6 +26,11 @@ exports.createCart = async (req, res) => {
 
 exports.addItemToCart = async (req, res) => {
     try {
+        const cart = await Cart.findById(req.params.cartId);
+        if (!cart) return res.status(404).json({ message: 'Cart not found' });
+        if (cart.user_id.toString() !== req.user.id && req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied' });
+        }
         const newItem = await cartService.addItemToCart(req.params.cartId, req.body);
         res.status(201).json(newItem);
     } catch (err) {
@@ -33,6 +40,11 @@ exports.addItemToCart = async (req, res) => {
 
 exports.removeItemFromCart = async (req, res) => {
     try {
+        const cartItem = await CartItem.findById(req.params.itemId).populate('cart_id');
+        if (!cartItem) return res.status(404).json({ message: 'Item not found' });
+        if (cartItem.cart_id.user_id.toString() !== req.user.id && req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied' });
+        }
         await cartService.removeItemFromCart(req.params.itemId);
         res.status(200).json({ message: 'Item removed successfully' });
     } catch (err) {

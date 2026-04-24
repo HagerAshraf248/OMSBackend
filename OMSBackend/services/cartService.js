@@ -39,7 +39,7 @@ exports.checkout = async (cartId, orderDetails) => {
     if (cartItems.length > 0) {
         const orderItems = cartItems.map(item => ({
             order_id: savedOrder._id,
-            product_id: item.product_id,
+            product_id: item.product_id._id,
             quantity: item.quantity,
             unit_price: item.product_id.price
         }));

@@ -14,6 +14,9 @@ exports.getOrdersByUser = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
     try {
+        if (req.user.id !== req.body.user_id && req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied' });
+        }
         const savedOrder = await orderService.createOrder(req.body);
         res.status(201).json({ message: 'Order created successfully', orderId: savedOrder._id });
     } catch (err) {

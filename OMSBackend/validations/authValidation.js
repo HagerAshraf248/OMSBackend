@@ -25,7 +25,8 @@ const registerSchema = Joi.object({
         'any.required': 'invalid data',
         'string.empty': 'invalid data'
     }),
-    phone_number: Joi.string().optional()
+    phone_number: Joi.string().optional(),
+    role: Joi.string().valid('client', 'admin', 'supplier').optional()
 });
 
 const loginSchema = Joi.object({

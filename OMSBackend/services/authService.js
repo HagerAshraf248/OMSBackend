@@ -18,7 +18,7 @@ exports.register = async (userData) => {
         lastName: userData.lastName,
         email: userData.email,
         password: hashedPassword,
-        role: 'client',
+        role: userData.role || 'client',
         phone_number: userData.phone_number
     });
 
